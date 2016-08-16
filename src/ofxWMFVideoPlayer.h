@@ -67,6 +67,9 @@ public:
 
 	bool				setPixelFormat(ofPixelFormat pixelFormat);
 
+	bool				lockSharedTexture();
+	void				unlockSharedTexture();
+
 	void				draw(int x, int y, int w, int h);
 	void				draw(int x, int y) { draw(x, y, getWidth(), getHeight()); }
 
@@ -76,7 +79,7 @@ public:
 	LRESULT				WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam);
 
 
-	ofTexture&	getTextureReference() {
+	ofTexture&	getTexture() {
 		if (playerTex == NULL) {
 			return _tex;
 		}
@@ -86,24 +89,21 @@ public:
 	};
 
 	void setAnchorPercent(float xPct, float yPct) {
-		if (_isLoaded) {
-			_player->m_pEVRPresenter->lockSharedTexture();
+		if (lockSharedTexture()) {
 			_tex.setAnchorPercent(xPct, yPct);
-			_player->m_pEVRPresenter->unlockSharedTexture();
+			unlockSharedTexture();
 		}
 	}
 	void setAnchorPoint(float x, float y) {
-		if (_isLoaded) {
-			_player->m_pEVRPresenter->lockSharedTexture();
+		if (lockSharedTexture()) {
 			_tex.setAnchorPoint(x, y);
-			_player->m_pEVRPresenter->unlockSharedTexture();
+			unlockSharedTexture();
 		}
 	}
 	void resetAnchor() {
-		if (_isLoaded) {
-			_player->m_pEVRPresenter->lockSharedTexture();
+		if (lockSharedTexture()) {
 			_tex.resetAnchor();
-			_player->m_pEVRPresenter->unlockSharedTexture();
+			unlockSharedTexture();
 		}
 	}
 
