@@ -53,9 +53,11 @@ class ofxWMFVideoPlayer : public ofBaseVideoPlayer {
 
 
 		float	_frameRate;
+		float	_duration;
+		int		_totalNumFrames;
 
 
-	public:
+public:
 
 	CPlayer*	_player;
 
@@ -75,9 +77,10 @@ class ofxWMFVideoPlayer : public ofBaseVideoPlayer {
 	 void			pause();
 	 void			setPaused( bool bPause ) ;
 
-	 float			getPosition();
-	 float			getDuration();
-	 float			getFrameRate();
+	 float			getPosition() const;
+	 float			getDuration() const;
+	 float			getFrameRate() const;
+	 int			getTotalNumFrames() const;
 
 	 void			setPosition(float pos);
 

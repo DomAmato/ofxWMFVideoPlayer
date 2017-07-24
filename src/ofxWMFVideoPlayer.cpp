@@ -160,6 +160,11 @@ void ofxWMFVideoPlayer::forceExit()
 	 }
 	 _waitForLoadedToPlay = false;
 
+	 _frameRate = _player->getFrameRate();
+	 _duration = _player->getDuration();
+
+	 _totalNumFrames = _duration * _frameRate;
+
 	 return false;
 
 	
@@ -305,15 +310,15 @@ void 	ofxWMFVideoPlayer::setLoopState( ofLoopType loopType )
 	}
 }
 
-float 			ofxWMFVideoPlayer::	getPosition() 
+float ofxWMFVideoPlayer::getPosition() const 
 {
 	return ( _player->getPosition() / getDuration() ); 
 	//this returns it in seconds
 	//	return _player->getPosition();
 }
 
-float 			ofxWMFVideoPlayer::	getDuration() {
-	return _player->getDuration();
+float ofxWMFVideoPlayer::getDuration() const {
+	return _duration;
 }
 
 void ofxWMFVideoPlayer::setPosition(float pos)
@@ -339,11 +344,15 @@ float ofxWMFVideoPlayer::getVolume() const
 	return _player->getVolume();
 }
 
-float ofxWMFVideoPlayer::getFrameRate()
+float ofxWMFVideoPlayer::getFrameRate() const
 {
-	if (!_player) return 0.0f;
-	if (_frameRate == 0.0f) _frameRate = _player->getFrameRate();
 	return _frameRate;
+}
+
+
+int ofxWMFVideoPlayer::getTotalNumFrames() const
+{
+	return _totalNumFrames;
 }
 
 float	ofxWMFVideoPlayer::getHeight() const { return _player->getHeight(); }
