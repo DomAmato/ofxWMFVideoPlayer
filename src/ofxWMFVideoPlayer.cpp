@@ -199,15 +199,14 @@ void ofxWMFVideoPlayer::forceExit()
  }
 
 
-bool  ofxWMFVideoPlayer:: isPlaying() {
+bool  ofxWMFVideoPlayer:: isPlaying() const {
 	return _player->GetState() == Started;
  }
-bool  ofxWMFVideoPlayer:: isStopped() {
+bool  ofxWMFVideoPlayer:: isStopped() const {
 	return (_player->GetState() == Stopped || _player->GetState() == Paused);
  }
 
-bool  ofxWMFVideoPlayer:: isPaused() 
-{
+bool  ofxWMFVideoPlayer:: isPaused() const {
 	return _player->GetState() == Paused;
 }
 
@@ -246,29 +245,21 @@ bool	ofxWMFVideoPlayer::getIsMovieDone( )
 		return bIsDone ; 
 }
 
-bool ofxWMFVideoPlayer::isLoaded(){
+bool ofxWMFVideoPlayer::isLoaded() const {
 	if(_player == NULL){ return false; }
 	PlayerState ps = _player->GetState();
 	return ps == PlayerState::Paused || ps == PlayerState::Stopped || ps == PlayerState::Started;
-}
-
-unsigned char * ofxWMFVideoPlayer::getPixels(){
-	if(_tex.isAllocated()){
-		_tex.readToPixels(_pixels);
-		return _pixels.getPixels();
-	}
-	return NULL;
 }
 
 bool ofxWMFVideoPlayer::setPixelFormat(ofPixelFormat pixelFormat){
 	return (pixelFormat == OF_PIXELS_RGB);
 }
 
-ofPixelFormat ofxWMFVideoPlayer::getPixelFormat(){
+ofPixelFormat ofxWMFVideoPlayer::getPixelFormat() const {
 	return OF_PIXELS_RGB; 
 }
 
-bool ofxWMFVideoPlayer::isFrameNew(){
+bool ofxWMFVideoPlayer::isFrameNew() const {
 	return true;//TODO fix this
 }
 
@@ -343,7 +334,7 @@ void ofxWMFVideoPlayer::setVolume(float vol)
 
 }
 
-float ofxWMFVideoPlayer::getVolume()
+float ofxWMFVideoPlayer::getVolume() const
 {
 	return _player->getVolume();
 }
@@ -355,8 +346,8 @@ float ofxWMFVideoPlayer::getFrameRate()
 	return _frameRate;
 }
 
-float	ofxWMFVideoPlayer::getHeight() { return _player->getHeight(); }
-float	ofxWMFVideoPlayer::getWidth() { return _player->getWidth(); }
+float	ofxWMFVideoPlayer::getHeight() const { return _player->getHeight(); }
+float	ofxWMFVideoPlayer::getWidth() const { return _player->getWidth(); }
 
 void  ofxWMFVideoPlayer::setLoop(bool isLooping) { _isLooping = isLooping; _player->setLooping(isLooping); }
 

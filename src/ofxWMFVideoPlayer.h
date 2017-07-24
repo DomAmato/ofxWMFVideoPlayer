@@ -7,27 +7,28 @@
 
 
 #include "ofMain.h"
+
 #include "ofxWMFVideoPlayerUtils.h"
 
 #include "EVRPresenter.h"
 
 
 
-class ofxWMFVideoPlayer;
+//class ofxWMFVideoPlayer;
 
 
 class CPlayer;
 class ofxWMFVideoPlayer : public ofBaseVideoPlayer {
 
 	private:
+
 		static int  _instanceCount;
-		
-		
+
 		HWND		_hwndPlayer;
-		
+
 		BOOL bRepaintClient;
-		
-		
+
+
 		int _width;
 		int _height;
 
@@ -38,87 +39,87 @@ class ofxWMFVideoPlayer : public ofBaseVideoPlayer {
 		float _currentVolume;
 
 		bool _sharedTextureCreated;
-		
+
 		ofTexture _tex;
 		ofPixels _pixels;
 
 		BOOL InitInstance();
 
-		
-		void                OnPlayerEvent(HWND hwnd, WPARAM pUnkPtr);
 
-		bool				loadEventSent;
-		bool				bLoaded;
+		void	OnPlayerEvent(HWND hwnd, WPARAM pUnkPtr);
+
+		bool	loadEventSent;
+		bool	bLoaded;
 
 
-		float _frameRate;
+		float	_frameRate;
 
 
 	public:
+
 	CPlayer*	_player;
 
 	int _id;
-	
+
 	ofxWMFVideoPlayer();
 	 ~ofxWMFVideoPlayer();
 
-	 bool				loadMovie(string name);
-	 //bool 				loadMovie(string name_left, string name_right) ;
-	 void				close();
-	 void				update();
-	
-	 void				play();
-	 void				stop();		
-	 void				pause();
-	 void				setPaused( bool bPause ) ; 
+	 bool			load(string name) { return loadMovie(name); }
+	 bool			loadMovie(string name);
 
-	 float				getPosition();
-	 float				getDuration();
-	 float				getFrameRate();
+	 void			close();
+	 void			update();
 
-	 void				setPosition(float pos);
+	 void			play();
+	 void			stop();
+	 void			pause();
+	 void			setPaused( bool bPause ) ;
 
-	 void				setVolume(float vol);
-	 float				getVolume();
+	 float			getPosition();
+	 float			getDuration();
+	 float			getFrameRate();
 
-	 float				getHeight();
-	 float				getWidth();
+	 void			setPosition(float pos);
 
-	 bool				isPlaying(); 
-	 bool				isStopped();
-	 bool				isPaused();
+	 void			setVolume(float vol);
+	 float			getVolume() const;
 
-	 void				setLoop(bool isLooping);
-	 bool				isLooping() { return _isLooping; }
+	 float			getHeight() const;
+	 float			getWidth()  const;
 
-	 void				bind();
-	 void				unbind();
-	
-		ofEvent<bool>       videoLoadEvent;
+	 bool			isPlaying() const;
+	 bool			isStopped() const;
+	 bool			isPaused()  const;
 
+	 bool			isLoaded() const;
 
+	 void			setLoop(bool isLooping);
+	 bool			isLooping() { return _isLooping; }
 
-	 void				setLoopState( ofLoopType loopType ) ;
-	 bool				getIsMovieDone( ) ; 
+	 void			bind();
+	 void			unbind();
 
-	 bool isLoaded();
-	 
-	 unsigned char * getPixels();
-	 ofPixels& getPixelsRef(){ return _pixels; }
-	 ofTexture * getTexture(){ return &_tex; };
-	 bool setPixelFormat(ofPixelFormat pixelFormat);
-	 ofPixelFormat getPixelFormat();
+	ofEvent<bool>   videoLoadEvent;
 
-	 bool isFrameNew();
+	 void			setLoopState( ofLoopType loopType ) ;
+	 bool			getIsMovieDone( ) ;
 
+	 ofPixels&		getPixelsRef() { return _pixels; }
+	 ofPixels&		getPixels() { return _pixels; }
+	const ofPixels& getPixels() const { return _pixels; };
+	 ofTexture * 	getTexture(){ return &_tex; };
+	 bool 			setPixelFormat(ofPixelFormat pixelFormat);
+	 ofPixelFormat 	getPixelFormat() const;
 
-	 void draw(int x, int y , int w, int h);
-	 void draw(int x, int y) { draw(x,y,getWidth(),getHeight()); }
+	 bool			isFrameNew() const;
 
-	 HWND getHandle() { return _hwndPlayer;}
-	 LRESULT WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam);
+	 void			draw(int x, int y , int w, int h);
+	 void			draw(int x, int y) { draw(x,y,getWidth(),getHeight()); }
 
-	 static void forceExit();
+	 HWND			getHandle() { return _hwndPlayer;}
+	 LRESULT		WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam);
+
+	 static void	forceExit();
 
 
 };
