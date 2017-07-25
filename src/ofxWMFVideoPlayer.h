@@ -80,6 +80,7 @@ public:
 	 float			getPosition() const;
 	 float			getDuration() const;
 	 float			getFrameRate() const;
+	 int			getCurrentFrame() const;
 	 int			getTotalNumFrames() const;
 
 	 void			setPosition(float pos);

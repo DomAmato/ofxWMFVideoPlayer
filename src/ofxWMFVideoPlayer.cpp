@@ -63,6 +63,8 @@ ofxWMFVideoPlayer::ofxWMFVideoPlayer() : _player(NULL)
 	_wantToSetVolume = false;
 	_currentVolume = 1.0;
 	_frameRate = 0.0f;
+	_duration = 0.f;
+	_totalNumFrames = 0.f;
 	
 	
 }
@@ -243,11 +245,10 @@ void	ofxWMFVideoPlayer::	update() {
 
 bool	ofxWMFVideoPlayer::getIsMovieDone( )
 {
-		bool bIsDone = false ; 
-		if ( getPosition() >= 0.99f ) 
-			bIsDone = true ; 
+		int currentFrame = getCurrentFrame();
+		int finalFrame = _totalNumFrames - (_frameRate / 5.f);
 
-		return bIsDone ; 
+		return (currentFrame >= finalFrame);
 }
 
 bool ofxWMFVideoPlayer::isLoaded() const {
@@ -312,9 +313,14 @@ void 	ofxWMFVideoPlayer::setLoopState( ofLoopType loopType )
 
 float ofxWMFVideoPlayer::getPosition() const 
 {
+	cout << _player->getPosition() / getDuration() << endl;
 	return ( _player->getPosition() / getDuration() ); 
 	//this returns it in seconds
 	//	return _player->getPosition();
+}
+
+int ofxWMFVideoPlayer::getCurrentFrame() const {
+	return getPosition() * _totalNumFrames;
 }
 
 float ofxWMFVideoPlayer::getDuration() const {
