@@ -237,7 +237,7 @@ void	ofxWMFVideoPlayer::	update() {
 
 	if ((_wantToSetVolume))
 	{
-		_player->setVolume(_currentVolume);
+		setVolume(_currentVolume);
 
 	}
 	return;
@@ -313,7 +313,6 @@ void 	ofxWMFVideoPlayer::setLoopState( ofLoopType loopType )
 
 float ofxWMFVideoPlayer::getPosition() const 
 {
-	cout << _player->getPosition() / getDuration() << endl;
 	return ( _player->getPosition() / getDuration() ); 
 	//this returns it in seconds
 	//	return _player->getPosition();
