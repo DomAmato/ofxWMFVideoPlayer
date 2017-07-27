@@ -106,14 +106,17 @@ public:
 	ofEvent<bool>   videoLoadEvent;
 
 	 void			setLoopState( ofLoopType loopType ) ;
-	 bool			getIsMovieDone( ) ;
+	 bool			getIsMovieDone() const;
 
 	 ofPixels&		getPixelsRef() { return _pixels; }
 	 ofPixels&		getPixels() { return _pixels; }
-	const ofPixels& getPixels() const { return _pixels; };
-	 ofTexture * 	getTexture(){ return &_tex; };
+	 ofTexture& 	getTexture(){ return _tex; };
 	 bool 			setPixelFormat(ofPixelFormat pixelFormat);
 	 ofPixelFormat 	getPixelFormat() const;
+
+	 const ofTexture &	getTexture() const { return _tex; };
+	 const ofPixels  &	getPixels() const { return _pixels; };
+
 
 	 bool			isFrameNew() const;
 

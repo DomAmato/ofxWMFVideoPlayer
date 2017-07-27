@@ -243,7 +243,7 @@ void	ofxWMFVideoPlayer::	update() {
 	return;
  }
 
-bool	ofxWMFVideoPlayer::getIsMovieDone( )
+bool	ofxWMFVideoPlayer::getIsMovieDone() const
 {
 		int currentFrame = getCurrentFrame();
 		int finalFrame = _totalNumFrames - (_frameRate / 5.f);
