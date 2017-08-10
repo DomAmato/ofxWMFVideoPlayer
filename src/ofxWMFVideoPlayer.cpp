@@ -22,7 +22,9 @@ ofxWMFVideoPlayer* findPlayers(HWND hwnd)
 
 int  ofxWMFVideoPlayer::_instanceCount = 0;
 
-ofxWMFVideoPlayer::ofxWMFVideoPlayer() : _player(NULL)
+ofxWMFVideoPlayer::ofxWMFVideoPlayer() 
+	: _player(NULL)
+	, playerTex(NULL)
 {
 
 	if (_instanceCount == 0) {
@@ -177,22 +179,33 @@ bool ofxWMFVideoPlayer::endLoad() {
 	return true;
 }
 
-void ofxWMFVideoPlayer::draw(int x, int y, int w, int h) {
-
-	_player->m_pEVRPresenter->lockSharedTexture();
-	_tex.draw(x, y, w, h);
-	_player->m_pEVRPresenter->unlockSharedTexture();
-
+bool ofxWMFVideoPlayer::lockSharedTexture() {
+	if (_isLoaded) {
+		_player->m_pEVRPresenter->lockSharedTexture();
+		return true;
+	}
+	return false;
 }
 
-void	ofxWMFVideoPlayer::close() {
+void ofxWMFVideoPlayer::unlockSharedTexture() {
+	_player->m_pEVRPresenter->unlockSharedTexture();
+}
+
+void ofxWMFVideoPlayer::draw(int x, int y, int w, int h) {
+	if (lockSharedTexture()) {
+		_tex.draw(x, y, w, h);
+		unlockSharedTexture();
+	}
+}
+
+void ofxWMFVideoPlayer::close() {
 	_player->Shutdown();
 	_currentVolume = 1.0;
 	_wantToSetVolume = false;
 
 }
 
-void	ofxWMFVideoPlayer::update() {
+void ofxWMFVideoPlayer::update() {
 	if (!_player) return;
 
 	if (_waitingForLoad && _player->GetState() == OpenAsyncComplete) {
