@@ -48,7 +48,6 @@ public:
 	ofLoopType			getLoopState() { return _isLooping ? OF_LOOP_NORMAL : OF_LOOP_NONE; }
 	bool				getIsMovieDone();
 
-	void				setSpeed(float speed) { setSpeed(speed, false); }
 	bool				setSpeed(float speed, bool useThinning = false); //thinning drops delta frames for faster playback though appears to be choppy, default is false
 	float				getSpeed();
 
@@ -67,9 +66,6 @@ public:
 
 	bool				setPixelFormat(ofPixelFormat pixelFormat);
 
-	bool				lockSharedTexture();
-	void				unlockSharedTexture();
-
 	void				draw(int x, int y, int w, int h);
 	void				draw(int x, int y) { draw(x, y, getWidth(), getHeight()); }
 
@@ -79,7 +75,7 @@ public:
 	LRESULT				WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam);
 
 
-	ofTexture&	getTexture() {
+	ofTexture&	getTextureReference() {
 		if (playerTex == NULL) {
 			return _tex;
 		}
@@ -89,21 +85,24 @@ public:
 	};
 
 	void setAnchorPercent(float xPct, float yPct) {
-		if (lockSharedTexture()) {
+		if (_isLoaded) {
+			_player->m_pEVRPresenter->lockSharedTexture();
 			_tex.setAnchorPercent(xPct, yPct);
-			unlockSharedTexture();
+			_player->m_pEVRPresenter->unlockSharedTexture();
 		}
 	}
 	void setAnchorPoint(float x, float y) {
-		if (lockSharedTexture()) {
+		if (_isLoaded) {
+			_player->m_pEVRPresenter->lockSharedTexture();
 			_tex.setAnchorPoint(x, y);
-			unlockSharedTexture();
+			_player->m_pEVRPresenter->unlockSharedTexture();
 		}
 	}
 	void resetAnchor() {
-		if (lockSharedTexture()) {
+		if (_isLoaded) {
+			_player->m_pEVRPresenter->lockSharedTexture();
 			_tex.resetAnchor();
-			unlockSharedTexture();
+			_player->m_pEVRPresenter->unlockSharedTexture();
 		}
 	}
 
